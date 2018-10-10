@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-
+#import "BinaryTreeNode.h"
 @interface ViewController ()
 @property (nonatomic, strong) NSMutableArray *tempArr;
 @end
@@ -20,13 +20,27 @@
 
     UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(0, 100, 100, 100);
-    [button addTarget:self action:@selector(clickButton) forControlEvents:UIControlEventTouchUpInside];
+    [button addTarget:self action:@selector(creatRondomArray) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:button];
     button.backgroundColor  =  [UIColor redColor];
     
 
 }
--(void)clickButton{
+-(void)creatRondomArray{
+    for (int j = 0; j<10; j++) {
+        NSMutableArray *array = [NSMutableArray array];
+        NSInteger count = arc4random()%10+10;
+        NSInteger i = 0;
+        while (i<=count) {
+            NSInteger num = arc4random()%100;
+            [array addObject:[NSNumber numberWithInteger:num]];
+            i++;
+        }
+        [self sortArray:array];
+    }
+    
+}
+-(void)sortArray:(NSMutableArray *)array{
 //    [self maoPaoSuanFa];
 //    [self xuanZePaiXu];
 //    [self kuaiSuPaiXu];
@@ -34,8 +48,52 @@
 //    [self chaRuPaiXu];
 //    [self xiErPaiXu];
 //    [self jiShuPaiXu];
-    [self duipaixu];
+//    [self duipaixu];
+    [self treeSort:array];
 }
+-(void)treeSort:(NSMutableArray *)arr{
+//    NSArray *arr = [NSArray arrayWithObjects:@(7),@(6),@(3),@(2),@(1),@(9),@(10),@(12),@(14),@(4),@(14), nil];
+    BinaryTreeNode *tree = [BinaryTreeNode new];
+    tree = [BinaryTreeNode createTreeWithValues:arr];
+    
+    BinaryTreeNode *tree1 = [BinaryTreeNode treeNodeAtIndex:3 inTree:tree];
+    NSLog(@"%@",tree1);
+    
+    NSMutableArray *orderArray = [NSMutableArray array];
+    [BinaryTreeNode preOrderTraverseTree:tree handler:^(BinaryTreeNode *treeNode) {
+        [orderArray addObject:@(treeNode.value)];
+    }];
+    NSLog(@"先序遍历结果：%@", [orderArray componentsJoinedByString:@","]);
+    
+    NSMutableArray *orderArray1 = [NSMutableArray array];
+    [BinaryTreeNode inOrderTraverseTree:tree handler:^(BinaryTreeNode *treeNode) {
+        
+        [orderArray1 addObject:@(treeNode.value)];
+        
+    }];
+    NSLog(@"中序遍历结果：%@", [orderArray1 componentsJoinedByString:@","]);
+    
+    
+    NSMutableArray *orderArray2 = [NSMutableArray array];
+    [BinaryTreeNode postOrderTraverseTree:tree handler:^(BinaryTreeNode *treeNode) {
+        [orderArray2 addObject:@(treeNode.value)];
+        
+    }];
+    NSLog(@"后序遍历结果：%@", [orderArray2 componentsJoinedByString:@","]);
+    
+    
+    NSMutableArray *orderArray3 = [NSMutableArray array];
+    [BinaryTreeNode levelTraverseTree:tree handler:^(BinaryTreeNode *treeNode) {
+        [orderArray3 addObject:@(treeNode.value)];
+        
+    }];
+    NSLog(@"层次遍历结果：%@", [orderArray3 componentsJoinedByString:@","]);
+    
+    
+    
+
+}
+
 #pragma mark --冒泡算法
 ///冒泡算法是重复地走访过要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。
 -(void)maoPaoSuanFa{
@@ -135,12 +193,13 @@
 //2．分区过程，将比这个数大的数全放到它的右边，小于或等于它的数全放到它的左边。
 //3．再对左右区间重复第二步，直到各区间只有一个数。
 -(void)kuaiSuPaiXu{
-    NSMutableArray *array = [[NSMutableArray alloc] initWithObjects:@(55), @(23),@(59),@(93),@(23),@(4),@(56),@(1),@(34),@(69),nil];
+    NSMutableArray *array = [[NSMutableArray alloc] initWithObjects:@(55), @(23),@(59),@(93),@(23),@(4),@(56),@(1),@(34),@(69),@(47),nil];
     [self quickSortArray:array withLeftIndex:0 andRightIndex:array.count - 1];
     NSLog(@"%@",array);
 
 }
 - (void)quickSortArray:(NSMutableArray *)array withLeftIndex:(NSInteger)leftIndex andRightIndex:(NSInteger)rightIndex{
+    
     if (leftIndex>=rightIndex) {
         return;
     }
@@ -150,14 +209,16 @@
     while (left < right) {
 
         if ([num integerValue] <= [array[left+1] integerValue]) {
-            NSNumber *num1 = array[right];
-            array[right] = array[left+1];
-            array[left+1] = num1;
+//            NSNumber *num1 = array[right];
+//            array[right] = array[left+1];
+//            array[left+1] = num1;
+            [array exchangeObjectAtIndex:right withObjectAtIndex:left+1];
             right--;
         }else{
-            NSNumber *num2 = array[left];
-            array[left] = array[left+1];
-            array[left+1] = num2;
+//            NSNumber *num2 = array[left];
+//            array[left] = array[left+1];
+//            array[left+1] = num2;
+            [array exchangeObjectAtIndex:left withObjectAtIndex:left+1];
             left++;
         }
 
@@ -224,12 +285,14 @@
 //    [self quickSortArray:array withLeftIndex:i + 1 andRightIndex:rightIndex];
 //}
 #pragma mark -- 归并排序
+//归并排序的名字已经把它的中心思想表达出来了，回归再合并。既是将两个有序数组合并为一个数组
 -(void)guiBingPaiXu{
     NSMutableArray *arr = [[NSMutableArray alloc] initWithObjects:@(55), @(29),@(93),@(23),@(4),@(56),@(1),@(34),@(69),nil];
     [self.tempArr removeAllObjects];
     [self mergeSortArray:arr lowIndex:0 highIndex:arr.count - 1];
     
     NSLog(@"%@",self.tempArr);
+    NSLog(@"%@",arr);
 //    了解归并排序的方法执行顺序，在 [self addNum:num];后面的方法会执行，遵循后进先出的原则，符合归并排序分成一个元素后进行合并的原则
 //    [self addNum:1];
 }
@@ -247,49 +310,102 @@
 ////    NSLog(@"3333333");
 //    [self addNum:num];
 //}
-- (void)mergeSortArray:(NSMutableArray *)array lowIndex:(NSInteger)lowIndex highIndex:(NSInteger)highIndex
-{
-     NSLog(@"---------");
+- (void)mergeSortArray:(NSMutableArray *)array lowIndex:(NSInteger)lowIndex highIndex:(NSInteger)highIndex{
+    
     if (lowIndex >= highIndex) {
-        NSLog(@"444444");
         return;
     }
-    NSInteger midIndex = lowIndex + (highIndex - lowIndex) / 2;
-    NSLog(@"11111");
-    [self mergeSortArray:array lowIndex:lowIndex highIndex:midIndex];
-    [self mergeSortArray:array lowIndex:midIndex + 1 highIndex:highIndex];
-    NSLog(@"333333");
-    [self mergeArray:array lowIndex:lowIndex midIndex:midIndex highIndex:highIndex];
+    NSInteger highIndex1 = (highIndex + lowIndex)/2;
+    NSInteger lowIndex1 =  (highIndex + lowIndex)/2+1;
+    
+    [self mergeSortArray:array lowIndex:lowIndex highIndex:highIndex1];
+    [self mergeSortArray:array lowIndex:lowIndex1 highIndex:highIndex];
+    
+    [self mergeArray:array lowIndex:lowIndex midIndex:highIndex1 highIndex:highIndex];
 }
-
 - (void)mergeArray:(NSMutableArray *)array lowIndex:(NSInteger)lowIndex midIndex:(NSInteger)midIndex highIndex:(NSInteger)highIndex
 {
     for (NSInteger i = lowIndex; i <= highIndex; i ++) {
         self.tempArr[i] = array[i];
+//        [self.tempArr addObject:array[i]];
     }
-    NSLog(@"222222");
-    NSInteger k = lowIndex;
-    NSInteger l = midIndex + 1;
-    for (NSInteger j = lowIndex; j <= highIndex; j ++) {
-        if (l > highIndex) {
-            array[j] = self.tempArr[k];
-            k++;
-        }else if (k > midIndex)
-        {
-            array[j] = self.tempArr[l];
+    NSInteger l = lowIndex;
+    NSInteger m = midIndex+1;
+    if (m > highIndex) {
+        return;
+    }
+    for (NSInteger i = lowIndex; i <= highIndex; i++) {
+        if (m>highIndex) {
+            array[i] = self.tempArr[l];
             l++;
-        }else if ([self.tempArr[k] integerValue] > [self.tempArr[l] integerValue])
-        {
-            array[j] = self.tempArr[l];
-            l++;
-        }else
-        {
-            array[j] = self.tempArr[k];
-            k++;
+        }else if (l>midIndex){
+            array[i] = self.tempArr[m];
+            m++;
+        }else{
+            if ([self.tempArr[i] integerValue] > [self.tempArr[m] integerValue]) {
+                array[i] = self.tempArr[m];
+                m++;
+            }else{
+                array[i] = self.tempArr[l];
+                l++;
+            }
         }
+        
+        
+        
     }
-
 }
+
+
+
+
+
+
+
+
+//- (void)mergeSortArray:(NSMutableArray *)array lowIndex:(NSInteger)lowIndex highIndex:(NSInteger)highIndex
+//{
+//     NSLog(@"---------");
+//    if (lowIndex >= highIndex) {
+//        NSLog(@"444444");
+//        return;
+//    }
+//    NSInteger midIndex = lowIndex + (highIndex - lowIndex) / 2;
+//    NSLog(@"11111");
+//    [self mergeSortArray:array lowIndex:lowIndex highIndex:midIndex];
+//    [self mergeSortArray:array lowIndex:midIndex + 1 highIndex:highIndex];
+//    NSLog(@"333333");
+//    [self mergeArray:array lowIndex:lowIndex midIndex:midIndex highIndex:highIndex];
+//}
+
+//- (void)mergeArray:(NSMutableArray *)array lowIndex:(NSInteger)lowIndex midIndex:(NSInteger)midIndex highIndex:(NSInteger)highIndex
+//{
+//    for (NSInteger i = lowIndex; i <= highIndex; i ++) {
+//        self.tempArr[i] = array[i];
+//    }
+//    NSLog(@"222222");
+//    NSInteger k = lowIndex;
+//    NSInteger l = midIndex + 1;
+//    for (NSInteger j = lowIndex; j <= highIndex; j ++) {
+//        if (l > highIndex) {
+//            array[j] = self.tempArr[k];
+//            k++;
+//        }else if (k > midIndex)
+//        {
+//            array[j] = self.tempArr[l];
+//            l++;
+//        }else if ([self.tempArr[k] integerValue] > [self.tempArr[l] integerValue])
+//        {
+//            array[j] = self.tempArr[l];
+//            l++;
+//        }else
+//        {
+//            array[j] = self.tempArr[k];
+//            k++;
+//        }
+//    }
+//
+//}
 -(NSMutableArray *)tempArr
 {
     if (_tempArr == nil) {
@@ -297,6 +413,7 @@
     }
     return _tempArr;
 }
+
 #pragma mark -- 插入排序
 //实现思路：
 //
@@ -511,92 +628,39 @@ NSInteger numberLength(NSNumber *number) {
 
 - (void)duipaixu
 {
-    NSMutableArray *list = [[NSMutableArray alloc] initWithObjects:@(55), @(29),@(93),@(23),@(4),@(56),@(1),@(34),@(69),nil];
-    for (int i = 0; i <= list.count/2; i++) {
-        NSInteger left = i*2+1;
-        NSInteger right = left+1;
-        ///如果不满足这个条件，表明list[i]一定小于list[left]和list[right]中的一个不用再判断list[i]
-//        if ([list[i] integerValue]>=[list[left] integerValue]&&[list[i] integerValue]>=[list[right] integerValue]) {
-//            continue;
-//        }
-         NSNumber* num = list[i];
-        while (right<list.count) {
-            if ([list[i] integerValue]>=[list[left] integerValue]&&[list[i] integerValue]>=[list[right] integerValue]) {
-                break;
-            }
-           
-            if ([list[right] integerValue]<[list[left] integerValue]) {
-                list[i] = list[left];
-                list[left] = num;
-            }else{
-                list[i] = list[right];
-                list[right] = num;
-            }
-           left = left*2+1;
-           right = left+1;
-        }
-        if (left<list.count&&list[left]>list[i]) {
-            list[i] = list[left];
-            list[left] = num;
-        }
-        
-    }
-    NSInteger size = list.count;
-    while (size>0) {
-        [list exchangeObjectAtIndex:size-1 withObjectAtIndex:0];
-        size--;
-        NSInteger i = 0;
-        NSInteger left = i*2+1;
-        NSInteger right = left+1;
-         NSNumber* num = list[i];
-        while (right<size) {
-            if ([list[i] integerValue]>=[list[left] integerValue]&&[list[i] integerValue]>=[list[right] integerValue]) {
-                break;
-            }
-            NSNumber* num = list[i];
-            if ([list[right] integerValue]<[list[left] integerValue]) {
-                list[i] = list[left];
-                list[left] = num;
-            }else{
-                list[i] = list[right];
-                list[right] = num;
-            }
-            left = left*2+1;
-            right = left+1;
-        }
-        if (left<list.count&&list[left]>list[i]) {
-            list[i] = list[left];
-            list[left] = num;
-        }
-    }
-    NSLog(@"%@",list);
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-//    NSInteger i ,size;
-//    size = list.count;
-//    //找出最大的元素放到堆顶
-//    for (i= list.count/2; i>=0; i--) {
-//        [self createBiggesHeap:list withSize:size beIndex:i];
+    NSMutableArray *list = [[NSMutableArray alloc] initWithObjects:@(55), @(29),@(93),@(89),@(4),@(56),@(1),@(34),@(69),@(47),@(472),@(3),@(12),@(27),@(31),nil];
+//    for (int i = 0; i <= list.count/2; i++){
+//
 //    }
 //
-//    while(size > 0){
-//        [list exchangeObjectAtIndex:size-1 withObjectAtIndex:0]; //将根(最大) 与数组最末交换
-//        size -- ;//树大小每次减小一个元素
-//        [self createBiggesHeap:list withSize:size beIndex:0];
-//    }
 //    NSLog(@"%@",list);
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    NSInteger i ,size;
+    size = list.count;
+    //找出最大的元素放到堆顶
+    for (i= list.count/2; i>=0; i--) {
+        [self createBiggesHeap:list withSize:size beIndex:i];
+    }
+
+    while(size > 0){
+        [list exchangeObjectAtIndex:size-1 withObjectAtIndex:0]; //将根(最大) 与数组最末交换
+        size -- ;//树大小每次减小一个元素
+        [self createBiggesHeap:list withSize:size beIndex:0];
+    }
+    NSLog(@"%@",list);
 }
 
 - (void)createBiggesHeap:(NSMutableArray *)list withSize:(NSInteger) size beIndex:(NSInteger)element

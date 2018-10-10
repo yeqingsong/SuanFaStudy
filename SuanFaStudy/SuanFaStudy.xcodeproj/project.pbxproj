@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7861A80D215488C1004EC56C /* BinaryTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 7861A80C215488C1004EC56C /* BinaryTreeNode.m */; };
 		78F1AD2D210EBBFB00E0F7D1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F1AD2C210EBBFB00E0F7D1 /* AppDelegate.m */; };
 		78F1AD30210EBBFC00E0F7D1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F1AD2F210EBBFC00E0F7D1 /* ViewController.m */; };
 		78F1AD33210EBBFC00E0F7D1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78F1AD31210EBBFC00E0F7D1 /* Main.storyboard */; };
@@ -35,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7861A80B215488C1004EC56C /* BinaryTreeNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BinaryTreeNode.h; sourceTree = "<group>"; };
+		7861A80C215488C1004EC56C /* BinaryTreeNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BinaryTreeNode.m; sourceTree = "<group>"; };
 		78F1AD28210EBBFB00E0F7D1 /* SuanFaStudy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuanFaStudy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78F1AD2B210EBBFB00E0F7D1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		78F1AD2C210EBBFB00E0F7D1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -105,6 +108,8 @@
 				78F1AD2C210EBBFB00E0F7D1 /* AppDelegate.m */,
 				78F1AD2E210EBBFC00E0F7D1 /* ViewController.h */,
 				78F1AD2F210EBBFC00E0F7D1 /* ViewController.m */,
+				7861A80B215488C1004EC56C /* BinaryTreeNode.h */,
+				7861A80C215488C1004EC56C /* BinaryTreeNode.m */,
 				78F1AD31210EBBFC00E0F7D1 /* Main.storyboard */,
 				78F1AD34210EBBFD00E0F7D1 /* Assets.xcassets */,
 				78F1AD36210EBBFD00E0F7D1 /* LaunchScreen.storyboard */,
@@ -264,6 +269,7 @@
 			files = (
 				78F1AD30210EBBFC00E0F7D1 /* ViewController.m in Sources */,
 				78F1AD3B210EBBFD00E0F7D1 /* main.m in Sources */,
+				7861A80D215488C1004EC56C /* BinaryTreeNode.m in Sources */,
 				78F1AD2D210EBBFB00E0F7D1 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
