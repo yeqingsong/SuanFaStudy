@@ -161,7 +161,33 @@
         [BinaryTreeNode preOrderTraverseTree:rootNode.rightNode handler:handler];
     }
 }
-
++ (void)preOrderTraverseTree1:(BinaryTreeNode *)rootNode handler:(void(^)(BinaryTreeNode *treeNode))handler {
+    if (rootNode) {
+        
+        if (handler) {
+            handler(rootNode);
+        }
+        
+        NSMutableArray* array = [NSMutableArray array];
+        [array addObject:rootNode];
+        while (array.count>0) {
+            BinaryTreeNode* tree = array[0];
+            [array removeObjectAtIndex:0];
+            if (tree) {
+                NSLog(@"%ld",(long)tree.value);
+            }
+            if (tree.rightNode) {
+                [array addObject:tree.rightNode];
+            }
+            if (tree.leftNode) {
+                [array addObject:tree.leftNode];
+            }
+            
+            
+            
+        }
+    }
+}
 /**
  *  中序遍历
  *  先遍历左子树，再访问根，再遍历右子树

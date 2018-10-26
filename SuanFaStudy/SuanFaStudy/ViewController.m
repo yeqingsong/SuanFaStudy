@@ -56,12 +56,17 @@
     BinaryTreeNode *tree = [BinaryTreeNode new];
     tree = [BinaryTreeNode createTreeWithValues:arr];
     
+//    BinaryTreeNode *tree33 = [BinaryTreeNode invertBinaryTreeNot:tree];
     BinaryTreeNode *tree1 = [BinaryTreeNode treeNodeAtIndex:3 inTree:tree];
     NSLog(@"%@",tree1);
     
     NSMutableArray *orderArray = [NSMutableArray array];
     [BinaryTreeNode preOrderTraverseTree:tree handler:^(BinaryTreeNode *treeNode) {
         [orderArray addObject:@(treeNode.value)];
+    }];
+    NSLog(@"先序遍历结果：%@", [orderArray componentsJoinedByString:@","]);
+    [BinaryTreeNode preOrderTraverseTree1:tree handler:^(BinaryTreeNode *treeNode) {
+//        [orderArray addObject:@(treeNode.value)];
     }];
     NSLog(@"先序遍历结果：%@", [orderArray componentsJoinedByString:@","]);
     

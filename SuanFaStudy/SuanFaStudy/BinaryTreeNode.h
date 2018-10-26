@@ -24,6 +24,8 @@
 + (BinaryTreeNode *)invertBinaryTreeNot:(BinaryTreeNode *)rootNode;
 //先序遍历：先访问根，再遍历左子树，再遍历右子树。典型的递归思想。
 + (void)preOrderTraverseTree:(BinaryTreeNode *)rootNode handler:(void(^)(BinaryTreeNode *treeNode))handler;
+//先序遍历：先访问根，再遍历左子树，再遍历右子树,不使用递归。
++ (void)preOrderTraverseTree1:(BinaryTreeNode *)rootNode handler:(void(^)(BinaryTreeNode *treeNode))handler ;
 //中序遍历:先遍历左子树，再访问根，再遍历右子树
 + (void)inOrderTraverseTree:(BinaryTreeNode *)rootNode handler:(void(^)(BinaryTreeNode *treeNode))handler;
 //后序遍历:先遍历左子树，再遍历右子树，再访问根
